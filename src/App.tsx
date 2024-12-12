@@ -1,5 +1,5 @@
 import React from 'react';
-import StringCalculator from './components/StringCalculator.tsx';
+import StringCalculator from './components/StringCalculator/StringCalculator.tsx';
 
 const App: React.FC = () => {
     return (

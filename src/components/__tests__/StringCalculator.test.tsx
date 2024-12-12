@@ -44,5 +44,14 @@ describe('StringCalculator', () => {
         fireEvent.click(button);
         expect(screen.getByText(/Negatives not allowed: -2, -3/)).toBeInTheDocument();
     });
+
+    test('ignores numbers greater than 1000', () => {
+        render(<StringCalculator />);
+        const input = screen.getByPlaceholderText('Enter numbers (e.g., 1,2)');
+        fireEvent.change(input, { target: { value: '2,1001' } });
+        const button = screen.getByText('Add');
+        fireEvent.click(button);
+        expect(screen.getByText(/Result: 2/)).toBeInTheDocument();
+    });
     
 });

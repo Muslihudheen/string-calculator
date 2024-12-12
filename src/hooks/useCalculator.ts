@@ -1,18 +1,22 @@
 import { useState } from 'react';
 import { parseInput } from '../utils/parseInput';
 
-export const useCalculator = () => {
-    const [input, setInput] = useState('');
+export function useCalculator() {
+    const [input, setInput] = useState<string>('');
     const [result, setResult] = useState<number | string>(0);
 
     const handleAdd = () => {
         try {
-            const calculationResult = parseInput(input);
-            setResult(calculationResult);
-        } catch (error: any) {
-            setResult(error.message || 'Invalid input');
+            if (input.trim() === '') {
+                setResult(0);
+            } else {
+                const sum = parseInput(input);
+                setResult(sum);
+            }
+        } catch (error) {
+            setResult(`Error: ${error.message}`);
         }
     };
 
     return { input, setInput, result, handleAdd };
-};
+}

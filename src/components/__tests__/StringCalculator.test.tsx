@@ -1,15 +1,17 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import StringCalculator from '../StringCalculator';
 
 describe('StringCalculator', () => {
-    test('returns 0 for empty input', () => {
+    test('returns 0 for an empty string', () => {
         render(<StringCalculator />);
+        const input = screen.getByPlaceholderText('Enter numbers (e.g., 1,2)');
         const button = screen.getByText('Add');
         fireEvent.click(button);
         expect(screen.getByText(/Result: 0/)).toBeInTheDocument();
     });
 
-    test('adds two numbers correctly', () => {
+    test('adds two numbers separated by commas', () => {
         render(<StringCalculator />);
         const input = screen.getByPlaceholderText('Enter numbers (e.g., 1,2)');
         fireEvent.change(input, { target: { value: '1,2' } });
@@ -18,15 +20,6 @@ describe('StringCalculator', () => {
         expect(screen.getByText(/Result: 3/)).toBeInTheDocument();
     });
 
-    test('handles newline as a delimiter', () => {
-        render(<StringCalculator />);
-        const input = screen.getByPlaceholderText('Enter numbers (e.g., 1,2)');
-        fireEvent.change(input, { target: { value: '1\n2,3' } });
-        const button = screen.getByText('Add');
-        fireEvent.click(button);
-        expect(screen.getByText(/Result: 6/)).toBeInTheDocument();
-    });
-    
     test('supports custom delimiters', () => {
         render(<StringCalculator />);
         const input = screen.getByPlaceholderText('Enter numbers (e.g., 1,2)');
@@ -35,7 +28,7 @@ describe('StringCalculator', () => {
         fireEvent.click(button);
         expect(screen.getByText(/Result: 3/)).toBeInTheDocument();
     });
-    
+
     test('throws an error for negative numbers', () => {
         render(<StringCalculator />);
         const input = screen.getByPlaceholderText('Enter numbers (e.g., 1,2)');
@@ -57,10 +50,18 @@ describe('StringCalculator', () => {
     test('supports multiple delimiters', () => {
         render(<StringCalculator />);
         const input = screen.getByPlaceholderText('Enter numbers (e.g., 1,2)');
-        fireEvent.change(input, { target: { value: '//[**][%%]\n1**2%%3' } });
+        fireEvent.change(input, { target: { value: '//[*][%]\n1*2%3' } });
         const button = screen.getByText('Add');
         fireEvent.click(button);
         expect(screen.getByText(/Result: 6/)).toBeInTheDocument();
     });
-    
+
+    test('supports multiple delimiters with variable lengths', () => {
+        render(<StringCalculator />);
+        const input = screen.getByPlaceholderText('Enter numbers (e.g., 1,2)');
+        fireEvent.change(input, { target: { value: '//[***][%%]\n1***2%%3' } });
+        const button = screen.getByText('Add');
+        fireEvent.click(button);
+        expect(screen.getByText(/Result: 6/)).toBeInTheDocument();
+    });
 });

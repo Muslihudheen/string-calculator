@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <div className="flex bg-red-500">
       <header className="App-header">
         <p>
           Edit <code>src/App.tsx</code> and save to reload.

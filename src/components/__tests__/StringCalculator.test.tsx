@@ -53,5 +53,14 @@ describe('StringCalculator', () => {
         fireEvent.click(button);
         expect(screen.getByText(/Result: 2/)).toBeInTheDocument();
     });
+
+    test('supports multiple delimiters', () => {
+        render(<StringCalculator />);
+        const input = screen.getByPlaceholderText('Enter numbers (e.g., 1,2)');
+        fireEvent.change(input, { target: { value: '//[**][%%]\n1**2%%3' } });
+        const button = screen.getByText('Add');
+        fireEvent.click(button);
+        expect(screen.getByText(/Result: 6/)).toBeInTheDocument();
+    });
     
 });

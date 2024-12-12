@@ -16,8 +16,10 @@ const StringCalculator: React.FC = () => {
     
         if (input.startsWith('//')) {
             const delimiterEndIndex = input.indexOf('\n');
-            const delimiter = input.substring(2, delimiterEndIndex);
-            delimiterRegex = new RegExp(`[${delimiter}]`);
+            const delimiters = input.substring(2, delimiterEndIndex)
+                .match(/\[.*?\]/g)
+                ?.map((delim) => delim.slice(1, -1)) || [input.substring(2, delimiterEndIndex)];
+            delimiterRegex = new RegExp(delimiters.join('|'));
             processedInput = input.substring(delimiterEndIndex + 1);
         }
     

@@ -1,24 +1,12 @@
 import React from 'react';
-import './App.css';
+import StringCalculator from './components/StringCalculator.tsx';
 
-function App() {
-  return (
-    <div className="flex bg-red-500">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => {
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <StringCalculator />
+        </div>
+    );
+};
 
 export default App;

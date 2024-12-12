@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import StringCalculator from '../StringCalculator';
+import StringCalculator from '../components/StringCalculator';
 
 describe('StringCalculator', () => {
     test('returns 0 for an empty string', () => {

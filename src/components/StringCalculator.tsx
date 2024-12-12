@@ -9,10 +9,11 @@ const StringCalculator: React.FC = () => {
             setResult(0);
             return;
         }
-
-        const numbers = input.split(',').map(Number);
+    
+        const numbers = input.split(/,|\n/).map(Number);
         setResult(numbers.reduce((acc, num) => acc + num, 0));
     };
+    
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">

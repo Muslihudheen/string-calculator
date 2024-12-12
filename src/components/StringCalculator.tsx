@@ -10,10 +10,30 @@ const StringCalculator: React.FC = () => {
             return;
         }
     
-        const numbers = input.split(/,|\n/).map(Number);
-        setResult(numbers.reduce((acc, num) => acc + num, 0));
-    };
+        let numbers: number[] = [];
+        let delimiterRegex = /,|\n/;
+        let processedInput = input;
     
+        if (input.startsWith('//')) {
+            const delimiterEndIndex = input.indexOf('\n');
+            const delimiter = input.substring(2, delimiterEndIndex);
+            delimiterRegex = new RegExp(`[${delimiter}]`);
+            processedInput = input.substring(delimiterEndIndex + 1);
+        }
+    
+        try {
+            numbers = processedInput.split(delimiterRegex).map(Number);
+    
+            const negatives = numbers.filter((num) => num < 0);
+            if (negatives.length > 0) {
+                throw new Error(`Negatives not allowed: ${negatives.join(', ')}`);
+            }
+    
+            setResult(numbers.reduce((acc, num) => acc + num, 0));
+        } catch (error: any) {
+            setResult(error.message);
+        }
+    };    
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">

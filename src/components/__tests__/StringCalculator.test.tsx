@@ -27,4 +27,22 @@ describe('StringCalculator', () => {
         expect(screen.getByText(/Result: 6/)).toBeInTheDocument();
     });
     
+    test('supports custom delimiters', () => {
+        render(<StringCalculator />);
+        const input = screen.getByPlaceholderText('Enter numbers (e.g., 1,2)');
+        fireEvent.change(input, { target: { value: '//;\n1;2' } });
+        const button = screen.getByText('Add');
+        fireEvent.click(button);
+        expect(screen.getByText(/Result: 3/)).toBeInTheDocument();
+    });
+    
+    test('throws an error for negative numbers', () => {
+        render(<StringCalculator />);
+        const input = screen.getByPlaceholderText('Enter numbers (e.g., 1,2)');
+        fireEvent.change(input, { target: { value: '1,-2,-3' } });
+        const button = screen.getByText('Add');
+        fireEvent.click(button);
+        expect(screen.getByText(/Negatives not allowed: -2, -3/)).toBeInTheDocument();
+    });
+    
 });

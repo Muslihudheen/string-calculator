@@ -7,7 +7,7 @@ interface ResultDisplayProps {
 const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
     return (
         <div
-            className="text-center text-3xl font-semibold text-gray-700 mt-4 p-3 rounded-md bg-gray-100 shadow-md"
+            className="text-center text-3xl font-semibold text-gray-700 mt-4 p-3 rounded-md bg-gray-100 shadow-md transform transition-all duration-300 ease-in-out"
             style={{ transition: 'all 0.3s ease-in-out' }}
         >
             {typeof result === 'number' ? result : <span className="text-red-500">{result}</span>}

@@ -1,4 +1,3 @@
-// File: src/tests/Integration.test.ts
 import { render, screen, fireEvent } from "@testing-library/react";
 import Calculator from "../components/Calculator";
 import React from "react";
@@ -6,23 +5,21 @@ import React from "react";
 describe("Calculator Integration Tests", () => {
   test("should calculate the sum of input and display the result", () => {
     render(React.createElement(Calculator));
-;
-
+    
     const textarea = screen.getByPlaceholderText(
       /enter your expression/i
     ) as HTMLTextAreaElement;
     const calculateButton = screen.getByText(/calculate/i);
-    const resultDisplay = screen.getByText(/result:/i);
 
     fireEvent.change(textarea, { target: { value: "1+2" } });
     fireEvent.click(calculateButton);
 
-    expect(resultDisplay.textContent).toContain("3");
+    const resultDisplay = screen.getByText(/result:/i);
+    expect(resultDisplay.textContent).toBe("Result: 3");
   });
 
   test("should show error for invalid input", () => {
     render(React.createElement(Calculator));
-
 
     const textarea = screen.getByPlaceholderText(
       /enter your expression/i
@@ -32,13 +29,12 @@ describe("Calculator Integration Tests", () => {
     fireEvent.change(textarea, { target: { value: "1++" } });
     fireEvent.click(calculateButton);
 
-    const errorDisplay = screen.getByText(/result:/i);
-    expect(errorDisplay.textContent).toContain("");
+    const resultDisplay = screen.getByText(/result:/i);
+    expect(resultDisplay.textContent).toBe("Result: Invalid Input");
   });
 
   test("should clear input and history on reset", () => {
     render(React.createElement(Calculator));
-
 
     const textarea = screen.getByPlaceholderText(
       /enter your expression/i
@@ -80,7 +76,8 @@ describe("Calculator Integration Tests", () => {
     fireEvent.change(textarea, { target: { value: "1+2" } });
     fireEvent.click(calculateButton);
 
-    const history = screen.getByText(/history:/i);
-    expect(history.textContent).toContain("1+2 = 3");
+    const historyItems = screen.getAllByRole("listitem");
+    expect(historyItems[0].textContent).toBe("1+2 = 3");
   });
 });
+

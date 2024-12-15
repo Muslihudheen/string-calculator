@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useCalculator } from "../hooks/useCalculator";
+import Keypad from "./Keypad";
+import ResultDisplay from "./ResultDisplay";
+import HistoryList from "./HistoryList";
 
 const Calculator: React.FC = () => {
   const [input, setInput] = useState("");
@@ -32,9 +35,7 @@ const Calculator: React.FC = () => {
 
   return (
     <div className="p-6 bg-primary text-light w-96 rounded shadow-lg">
-      <h1 className="text-center text-2xl font-bold mb-4">
-        String Calculator
-      </h1>
+      <h1 className="text-center text-2xl font-bold mb-4">String Calculator</h1>
       <textarea
         rows={3}
         className="w-full p-2 mb-4 text-dark rounded text-secondary text-lg font-semibold"
@@ -42,52 +43,11 @@ const Calculator: React.FC = () => {
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
-      <div className="grid grid-cols-4 gap-2 mb-4">
-        {[
-          "7",
-          "8",
-          "9",
-          "+",
-          "4",
-          "5",
-          "6",
-          "-",
-          "1",
-          "2",
-          "3",
-          "*",
-          ".",
-          "0",
-          "/",
-          "(",
-        ].map((key) => (
-          <button
-            key={key}
-            className="py-2 bg-accent text-light font-bold rounded hover:bg-accent-dark"
-            onClick={() => handleKeypadClick(key)}
-          >
-            {key}
-          </button>
-        ))}
-        <button
-          className="py-2 bg-accent text-light font-bold rounded hover:bg-accent-dark"
-          onClick={() => handleKeypadClick(")")}
-        >
-          )
-        </button>
-        <button
-          className="py-2 bg-warning text-light font-bold rounded hover:bg-warning-dark"
-          onClick={handleBackspace}
-        >
-          Backspace
-        </button>
-        <button
-          className="col-span-2 py-2 bg-error text-light"
-          onClick={handleClear}
-        >
-          Clear
-        </button>
-      </div>
+      <Keypad
+        onKeypadClick={handleKeypadClick}
+        onBackspace={handleBackspace}
+        onClear={handleClear}
+      />
       <button
         className="w-full py-2 mb-4 bg-accent text-light font-bold rounded hover:bg-accent-dark"
         onClick={handleCalculate}
@@ -100,19 +60,8 @@ const Calculator: React.FC = () => {
       >
         Reset
       </button>
-      <div className="p-2 bg-secondary text-dark rounded mb-4">
-        <strong>Result:</strong> {result}
-      </div>
-      <div className="p-2 bg-secondary text-dark rounded">
-        <strong>History:</strong>
-        <ul>
-          {history.map((entry, index) => (
-            <li key={index} className="text-sm">
-              {entry}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ResultDisplay result={result} />
+      <HistoryList history={history} />
     </div>
   );
 };

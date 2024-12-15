@@ -7,41 +7,45 @@ describe('StringCalculator', () => {
     calculator = new StringCalculator();
   });
 
-  test('calculates basic addition', () => {
-    expect(calculator.calculate('1+2')).toBe(3);
+  test('returns 0 for an empty string', () => {
+    expect(calculator.calculate('')).toBe(0);
   });
 
-  test('handles subtraction', () => {
-    expect(calculator.calculate('10-4')).toBe(6);
+  test('returns the number for a single number input', () => {
+    expect(calculator.calculate('1')).toBe(1);
   });
 
-  test('handles multiplication', () => {
-    expect(calculator.calculate('3*4')).toBe(12);
+  test('returns the sum of two numbers separated by a comma', () => {
+    expect(calculator.calculate('1,2')).toBe(3);
   });
 
-  test('handles division', () => {
-    expect(calculator.calculate('12/3')).toBe(4);
+  test('handles new lines between numbers', () => {
+    expect(calculator.calculate('1\n2,3')).toBe(6);
   });
 
-  test('handles combined operations', () => {
-    expect(calculator.calculate('1+2*3-4/2')).toBe(5);
+  test('supports custom delimiters', () => {
+    expect(calculator.calculate('//;\n1;2')).toBe(3);
   });
 
-  test('handles parentheses', () => {
-    expect(calculator.calculate('(1+2)*(3-1)')).toBe(6);
+  test('throws an error for negative numbers', () => {
+    expect(() => calculator.calculate('1,-2,-3')).toThrow('Negatives not allowed: -2, -3');
   });
 
-  test('throws error for invalid input', () => {
-    expect(() => calculator.calculate('abc')).toThrow('Invalid characters in the expression.');
+  test('ignores numbers greater than 1000', () => {
+    expect(calculator.calculate('2,1001')).toBe(2);
   });
 
-  test('throws error for empty input', () => {
-    expect(() => calculator.calculate('')).toThrow('Input is empty.');
+  test('handles multiple delimiters', () => {
+    expect(calculator.calculate('//[*][%]\n1*2%3')).toBe(6);
   });
 
-  test('tracks the number of calls', () => {
-    calculator.calculate('1+2');
-    calculator.calculate('3*4');
+  test('handles delimiters of any length', () => {
+    expect(calculator.calculate('//[***]\n1***2***3')).toBe(6);
+  });
+
+  test('tracks the number of calls to calculate', () => {
+    calculator.calculate('1,2');
+    calculator.calculate('3,4');
     expect(calculator.getCalledCount()).toBe(2);
   });
 });

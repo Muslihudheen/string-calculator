@@ -22,6 +22,10 @@ const Calculator: React.FC = () => {
     setHistory([]);
   };
 
+  const handleBackspace = () => {
+    setInput((prev) => prev.slice(0, -1));
+  };
+
   const handleKeypadClick = (value: string) => {
     setInput((prev) => prev + value);
   };
@@ -70,6 +74,12 @@ const Calculator: React.FC = () => {
           onClick={() => handleKeypadClick(")")}
         >
           )
+        </button>
+        <button
+          className="py-2 bg-warning text-light font-bold rounded hover:bg-warning-dark"
+          onClick={handleBackspace}
+        >
+          Backspace
         </button>
         <button
           className="col-span-2 py-2 bg-error text-light"
